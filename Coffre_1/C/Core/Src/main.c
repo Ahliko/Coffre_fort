@@ -97,8 +97,8 @@ void application_init ( void )
     }
     Delay_ms( 100 );
 
-    error_check = fingerprint3_set_config ( &fingerprint3, FINGERPRINT3_DEFAULT_ADDRESS,
-                                            FINGERPRINT3_DEFAULT_PASSWORD );
+    error_check = fingerprint3_set_config(&fingerprint3, FINGERPRINT3_DEFAULT_ADDRESS,
+                                                  FINGERPRINT3_DEFAULT_PASSWORD);
     display_error( "Set Config" );
     Delay_ms( 500 );
 
