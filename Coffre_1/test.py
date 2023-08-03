@@ -1,10 +1,10 @@
-from machine import UART
+from machine import UART, Pin
 import time
 
-uart = UART(0, baudrate=115200, tx=17, rx=16)
+uart = UART(1, baudrate=115200, tx=17, rx=16)
 
 for i in range(10):
     uart.write("hello")
     time.sleep(0.1)
-    print(uart.read(16))
+    print(uart.readline())
     time.sleep(0.1)
