@@ -1,11 +1,11 @@
 from machine import UART
-import time
 
-uart = UART(1, baudrate=115200)
+uart = UART(2, tx=17, rx=16)
 uart.init(115200, bits=8, parity=None, stop=1)
 
-for i in range(10):
-    uart.write("hello")
-    time.sleep(0.1)
-    print(uart.readline())
-    time.sleep(0.1)
+while True:
+    data = uart.read(1)
+    if data is not None:
+        # Show the byte as 2 hex digits then in the default way
+        print("%02x " % (data[0]), end='')
+        print(data)
