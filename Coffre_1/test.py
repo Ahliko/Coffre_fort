@@ -1,11 +1,27 @@
-from machine import UART
+import machine
+import time
 
-uart = UART(2, tx=17, rx=16)
-uart.init(115200, bits=8, parity=None, stop=1)
+# Configuration des broches RX et TX
+RX_PIN = 16  # Remplace par le numéro de broche que tu as connecté comme RX
+TX_PIN = 17  # Remplace par le numéro de broche que tu as connecté comme TX
 
-while True:
-    data = uart.read(1)
-    if data is not None:
-        # Show the byte as 2 hex digits then in the default way
-        print("%02x " % (data[0]), end='')
-        print(data)
+# Initialisation de la communication série
+fingerprint_serial = machine.UART(2, baudrate=9600, rx=RX_PIN, tx=TX_PIN)
+
+
+# Fonction pour traiter les données reçues
+def process_data(data):
+    print("Données reçues depuis le module :", data)
+    # Traite les données reçues du module ici
+
+
+def main():
+    while True:
+        if fingerprint_serial.any():
+            data = fingerprint_serial.read(1)
+            process_data(data)
+        time.sleep_ms(100)  # Attend un peu avant de vérifier à nouveau
+
+
+if __name__ == "__main__":
+    main()
