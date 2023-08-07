@@ -1,45 +1,53 @@
 import face_recognition
 import numpy as np
-import cv2, queue, threading, time
+import queue, threading, time
+import cv2 as cv
 import requests, os, re
+from time import perf_counter
 
-video_capture = cv2.VideoCapture(0)
-# video_capture.set(5,1)
-known_face_encodings = []
-known_face_names = []
-known_faces_filenames = []
-for (dirpath, dirnames, filenames) in os.walk('assets/img/users/'):
-    known_faces_filenames.extend(filenames)
-    break
-for filename in known_faces_filenames:
-    face = face_recognition.load_image_file('assets/img/users/' + filename)
-    known_face_names.append(re.sub("[0-9]", '', filename[:-4]))
-    known_face_encodings.append(face_recognition.face_encodings(face)[0])
-face_locations = []
-face_encodings = []
-face_names = []
-process_this_frame = True
-while True:
-    frame = video_capture.read()
-    if process_this_frame:
-        face_locations = face_recognition.face_locations(frame)
-        face_encodings = face_recognition.face_encodings(frame, face_locations)
-        face_names = []
-    for face_encoding in face_encodings:
-        matches = face_recognition.compare_faces(known_face_encodings, face_encoding)
-        name = "Unknown"
-        face_distances = face_recognition.face_distance(known_face_encodings, face_encoding)
-        best_match_index = np.argmin(face_distances)
-        if matches[best_match_index]:
-            name = known_face_names[best_match_index]
-            face_names.append(name)
-    process_this_frame = not process_this_frame
-    for (top, right, bottom, left), name in zip(face_locations, face_names):
-        cv2.rectangle(frame, (left, top), (right, bottom), (0, 0, 255), 2)
-        font = cv2.FONT_HERSHEY_DUPLEX
-        cv2.putText(frame, name, (left + 6, bottom - 6), font, 1.0, (255, 255, 255), 1)
-        cv2.imshow('Video', frame)
-        if cv2.waitKey(1) & 0xFF == ord('q'):
-            break
-video_capture.release()
-cv2.destroyAllWindows()
+webcam = cv.VideoCapture(0)
+t1_start = perf_counter()
+frame_count = 0
+NB_IMAGES = 100
+# Get files from openCV : https://github.com/opencv/opencv/tree/3.4/data/haarcascades
+classCascadefacial = cv.CascadeClassifier(cv.data.haarcascades + "haarcascade_frontalface_default.xml")
+classCascadeEyes = cv.CascadeClassifier(cv.data.haarcascades + "haarcascade_eye.xml")
+classCascadeSmile = cv.CascadeClassifier(cv.data.haarcascades + "haarcascade_profileface.xml")
+
+
+
+def facialDetectionAndMark(_image, _classCascade):
+    imgreturn = _image.copy()
+    gray = cv.cvtColor(imgreturn, cv.COLOR_BGR2GRAY)
+    faces = _classCascade.detectMultiScale(
+        gray,
+        scaleFactor=1.1,
+        minNeighbors=5,
+        minSize=(30, 30),
+        flags=cv.CASCADE_SCALE_IMAGE
+    )
+    for (x, y, w, h) in faces:
+        cv.rectangle(imgreturn, (x, y), (x + w, y + h), (0, 255, 0), 2)
+    return imgreturn
+
+
+def videoDetection(_haarclass):
+    if webcam.isOpened():
+        while True:
+            bImgReady, imageframe = webcam.read()  # get frame per frame from the webcam
+            if bImgReady:
+                face = facialDetectionAndMark(imageframe, _haarclass)
+                cv.imshow('My webcam', face)  # show the frame
+            else:
+                print('No image available')
+            keystroke = cv.waitKey(20)  # Wait for Key press
+            if keystroke == 27:
+                break  # if key pressed is ESC then escape the loop
+
+        webcam.release()
+        cv.destroyAllWindows()
+
+
+videoDetection(classCascadefacial)
+
+
