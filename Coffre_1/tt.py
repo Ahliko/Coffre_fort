@@ -1,19 +1,17 @@
-import serial
-# import RPi.GPIO as GPIO
+import machine
+from pyfingerprint import PyFingerprint
 import time
-from pyfingerprint.pyfingerprint import PyFingerprint
-
-# GPIO.setmode(GPIO.BOARD)
-# GPIO.setup(5, GPIO.OUT)
-# GPIO.output(5, GPIO.HIGH)
-# time.sleep(1)
-# GPIO.output(5, GPIO.HIGH)
 
 
 def fingerprint_sensor():
     print("fonction")
-    f = PyFingerprint("/dev/ttyAMA0", baudRate=115200, address=0xFFFFFFFF, password=0x00000000)
-    f.setSystemParameter(4, 12)
+    f = PyFingerprint(machine.UART(2,
+                                   baudrate=115200,
+                                   tx=17,
+                                   rx=16),
+                      address=0xFFFFFFFF,
+                      password=0x00000000)
+    # f.setSystemParameter(4, 12)
     print("init")
     print(f.verifyPassword())
     if not f.verifyPassword():
