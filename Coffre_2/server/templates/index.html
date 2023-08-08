@@ -2,18 +2,22 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>TEst</title>
+    <title>Test</title>
 </head>
 <body>
-{{ if .connect eq False }}
-    <form action="/verify" method="post">
-        <input type="text" name="username" placeholder="Username">
-        <input type="password" name="password" placeholder="Password">
-        <input type="submit" value="Login">
-    </form>
-{{ else }}
-    <input type="button" name="open">
-    <input type="button" name="close">
-{{ end }}
+{% if data.connect == False: %}
+<h1>Vous n'êtes pas connecté ! Veuillez vous connectez.</h1>
+<form action="/verify" method="post">
+    <input type="text" name="username" placeholder="Username">
+    <input type="password" name="password" placeholder="Password">
+    <input type="submit" value="Login">
+</form>
+{% else %}
+<h1>Vous êtes connecté.</h1>
+<form action="/move" method="post">
+    <input type="submit" name="open" placeholder="Open Coffre">
+    <input type="submit" name="close" placeholder="Close Coffre">
+</form>
+{% endif %}
 </body>
 </html>

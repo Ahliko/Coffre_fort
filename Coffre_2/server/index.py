@@ -3,7 +3,13 @@ import sqlite3
 
 app = Flask(__name__)
 
-connect = False
+
+class User:
+    def __init__(self):
+        self.connect = False
+
+
+theuser = User()
 
 
 def check_user(username, password):
@@ -19,17 +25,29 @@ def check_user(username, password):
 
 @app.route('/')
 def index():
-    return render_template('index.html', data=connect)
+    return render_template('index.html', data=theuser)
 
 
 @app.route('/verify', methods=['POST'])
 def verify():
     if check_user(request.form['username'], request.form['password']):
-        connect = True
+        theuser.connect = True
         print('User connected')
     else:
-        connect = False
+        theuser.connect = False
         print('User not connected')
+    return redirect('/')
+
+
+@app.route('/move', methods=['POST'])
+def move():
+    print()
+    if request.form.get('open') == 'Submit':
+        # TODO: Open the door
+        print('Open')
+    else:
+        # TODO: Close the door
+        print('Close')
     return redirect('/')
 
 
