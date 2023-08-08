@@ -30,7 +30,8 @@ def index():
 
 @app.route('/verify', methods=['POST'])
 def verify():
-    if check_user(request.form['username'], request.form['password']):
+    print(request.form['username'], request.form['note'])
+    if check_user(request.form['username'], request.form['note']):
         theuser.connect = True
         print('User connected')
     else:

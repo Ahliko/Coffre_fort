@@ -2,15 +2,28 @@
 <html lang="en">
 <head>
     <meta charset="UTF-8">
+    <link href="../static/style.css" rel="stylesheet">
     <title>Test</title>
 </head>
-<body>
+<body onload="createall()">
 {% if data.connect == False: %}
 <h1>Vous n'êtes pas connecté ! Veuillez vous connectez.</h1>
 <form action="/verify" method="post">
     <input type="text" name="username" placeholder="Username">
-    <input type="password" name="password" placeholder="Password">
-    <input type="submit" value="Login">
+    <div class="wrapper">
+        <!--        <div class="one" onclick="notes(1)">1</div>-->
+        <!--        <div class="two" onclick="notes(2)">2</div>-->
+        <!--        <div class="three" onclick="notes(3)">3</div>-->
+        <!--        <div class="four" onclick="notes(4)">4</div>-->
+        <!--        <div class="five" onclick="notes(5)">5</div>-->
+        <!--        <div class="six" onclick="notes(6)">6</div>-->
+        <!--        <div class="seven" onclick="notes(7)">7</div>-->
+        <!--        <div class="eight" onclick="notes(8)">8</div>-->
+        <!--        <div class="nine" onclick="notes(9)">9</div>-->
+        <!--        <div class="zero" onclick="notes(0)">0</div>-->
+    </div>
+    <input class="note" type="hidden" name="note" value="0">
+    <input type="submit" value="Login" onclick="check()">
 </form>
 {% else %}
 <h1>Vous êtes connecté.</h1>
@@ -19,5 +32,98 @@
     <input type="submit" name="close" placeholder="Close Coffre">
 </form>
 {% endif %}
+<script>
+    let note = [];
+    let place = [1, 2, 3, 4, 5, 6, 7, 8, 9, 0];
+
+    function notes(number) {
+        note.push(number);
+        console.log(note);
+    }
+
+    function check() {
+        console.log(note);
+        console.log(note.length);
+        if (note.length === 4) {
+            let noteString = note.join("");
+            console.log(noteString);
+            document.getElementsByClassName("note")[0].value = noteString;
+        } else {
+            document.getElementsByClassName("note")[0].value = "0";
+        }
+        note = [];
+    }
+
+    function random_place(max) {
+        return Math.floor(Math.random() * Math.floor(max));
+    }
+
+    function createall() {
+        for (let i = 0; i < 10; i++) {
+            let rdm = random_place(place.length);
+            random(place[rdm]);
+            place.splice(rdm, 1);
+        }
+    }
+
+    function random(theplace) {
+        let wrapper = document.getElementsByClassName("wrapper")[0];
+        let div = document.createElement("div");
+        switch (theplace) {
+            case 1:
+                div.setAttribute("class", "one");
+                div.setAttribute("onclick", "notes(1)");
+                div.innerText = "1";
+                break;
+            case 2:
+                div.setAttribute("class", "two");
+                div.setAttribute("onclick", "notes(2)");
+                div.innerText = "2";
+                break;
+            case 3:
+                div.setAttribute("class", "three");
+                div.setAttribute("onclick", "notes(3)");
+                div.innerText = "3";
+                break;
+            case 4:
+                div.setAttribute("class", "four");
+                div.setAttribute("onclick", "notes(4)");
+                div.innerText = "4";
+                break;
+            case 5:
+                div.setAttribute("class", "five");
+                div.setAttribute("onclick", "notes(5)");
+                div.innerText = "5";
+                break;
+            case 6:
+                div.setAttribute("class", "six");
+                div.setAttribute("onclick", "notes(6)");
+                div.innerText = "6";
+                break;
+            case 7:
+                div.setAttribute("class", "seven");
+                div.setAttribute("onclick", "notes(7)");
+                div.innerText = "7";
+                break;
+            case 8:
+                div.setAttribute("class", "eight");
+                div.setAttribute("onclick", "notes(8)");
+                div.innerText = "8";
+                break;
+            case 9:
+                div.setAttribute("class", "nine");
+                div.setAttribute("onclick", "notes(9)");
+                div.innerText = "9";
+                break;
+            case 0:
+                div.setAttribute("class", "zero");
+                div.setAttribute("onclick", "notes(0)");
+                div.innerText = "0";
+                break;
+        }
+        console.log(div, theplace);
+        wrapper.appendChild(div);
+    }
+</script>
 </body>
 </html>
