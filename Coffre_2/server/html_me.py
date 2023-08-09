@@ -24,9 +24,12 @@ class HTML:
                         self.a.input(type="submit", value="Submit", onclick="check()")
                 else:
                     self.a.h1("Vous êtes connecté !")
+                    with self.a.form(action="disconect", method="POST"):
+                        self.a.input(type="submit", value="Disconect")
                     with self.a.form(action="/move", method="POST"):
                         self.a.input(type="submit", name="open", value="Open")
                         self.a.input(type="submit", name="close", value="Close")
+                        self.a.input(type="submit", class_="destroy", value="Destroy")
                 with self.a.script():
                     self.a("""let note = [];
                     

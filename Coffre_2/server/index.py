@@ -49,9 +49,18 @@ def move():
     if request.form.get('open') == 'Submit':
         # TODO: Open the door
         print('Open')
-    else:
+    elif request.form.get('close') == 'Submit':
         # TODO: Close the door
         print('Close')
+    elif request.form.get('destroy') == 'Submit':
+        # TODO: Destroy the data of the Coffre
+        print('Destroy')
+    return redirect('/')
+
+
+@app.route('/disconect', methods=['POST'])
+def disconect():
+    theuser.connect = False
     return redirect('/')
 
 
