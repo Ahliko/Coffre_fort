@@ -1,5 +1,7 @@
+import flask
 from flask import Flask, render_template, redirect, request
 import sqlite3
+from html_me import HTML
 
 app = Flask(__name__)
 
@@ -25,7 +27,8 @@ def check_user(username, password):
 
 @app.route('/')
 def index():
-    return render_template('index.html', data=theuser)
+    h = HTML()
+    return h.html(theuser.connect)
 
 
 @app.route('/verify', methods=['POST'])
