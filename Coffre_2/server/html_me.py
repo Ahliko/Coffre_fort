@@ -7,7 +7,7 @@ class HTML:
         self.a = Airium()
         self.note = []
 
-    def html(self, connect):
+    def html_root(self, connect):
         self.a('<!DOCTYPE html>')
         with self.a.html(lang="en"):
             with self.a.head():
@@ -50,6 +50,20 @@ class HTML:
         }
         note = [];
     }""")
+        return str(self.a)
+
+    def html_a2f(self):
+        self.a('<!DOCTYPE html>')
+        with self.a.html(lang="en"):
+            with self.a.head():
+                self.a.meta(charset="utf-8")
+                self.a.title(_t="Coffre 2")
+                self.a.link(rel="stylesheet", href="static/style.css")
+            with self.a.body():
+                self.a.h1(_t="Veuillez entrez votre code de sécurité généré par votre application 2FA.")
+                with self.a.form(action="/a2f_check", method="POST"):
+                    self.a.input(type="text", name="a2f", placeholder="Code 2FA")
+                    self.a.input(type="submit", value="Submit")
         return str(self.a)
 
     @staticmethod
