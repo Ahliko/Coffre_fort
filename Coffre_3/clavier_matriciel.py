@@ -39,15 +39,3 @@ class Clavier:
     def cleanup():
         """Clean up GPIO pins"""
         GPIO.cleanup()
-
-    def run(self):
-        """Run the program"""
-        try:
-            self.setup_gpio()
-            while True:
-                pressed_key = self.detect_key()
-                if pressed_key:
-                    print("Touche pressée:", pressed_key)
-                time.sleep(0.1)
-        except KeyboardInterrupt:
-            self.cleanup()
