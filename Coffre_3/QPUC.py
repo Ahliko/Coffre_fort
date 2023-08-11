@@ -12,6 +12,7 @@ questions = [(1, "Quelle est la capitale de la France ?", "Paris", "Lyon", "Mars
               "L'ordre 35", "Le Dernier Ordre", "L'ordre 66", "L'ordre 42", 3), ]
 
 clavier = Clavier()
+clavier.setup_gpio()
 
 lcd = CharLCD(cols=16, rows=2, pin_rs=37, pin_e=35, pins_data=[33, 31, 29, 23])
 
@@ -65,3 +66,7 @@ def QPUC():
             time.sleep(2)
             lcd.clear()
             return False
+
+
+QPUC()
+clavier.cleanup()
