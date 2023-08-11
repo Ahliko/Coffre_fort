@@ -7,10 +7,10 @@ COLS = [12, 16, 20, 21]  # Broches connectées aux colonnes
 
 # Matrice représentant les touches du clavier
 keys = [
-    ['1', '2', '3', 'A'],
-    ['4', '5', '6', 'B'],
-    ['7', '8', '9', 'C'],
-    ['*', '0', '#', 'D']
+    ['1', '2', '3', 'F'],
+    ['4', '5', '6', 'E'],
+    ['7', '8', '9', 'D'],
+    ['A', '0', 'B', 'C']
 ]
 
 
