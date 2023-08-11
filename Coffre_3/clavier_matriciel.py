@@ -14,6 +14,7 @@ class Clavier:
         ]
 
     def setup_gpio(self):
+        """Setup GPIO pins"""
         GPIO.setmode(GPIO.BCM)
         for row in self.ROWS:
             GPIO.setup(row, GPIO.IN, pull_up_down=GPIO.PUD_UP)
@@ -22,6 +23,7 @@ class Clavier:
             GPIO.output(col, 1)
 
     def detect_key(self):
+        """Detect key press"""
         key = None
         for col_num, col_pin in enumerate(self.COLS):
             GPIO.output(col_pin, 0)
@@ -35,9 +37,11 @@ class Clavier:
 
     @staticmethod
     def cleanup():
+        """Clean up GPIO pins"""
         GPIO.cleanup()
 
     def run(self):
+        """Run the program"""
         try:
             self.setup_gpio()
             while True:
